@@ -56,12 +56,15 @@ private:
     std::map<uint8_t, ParamConfig> paramMap;
     CANFrameCallback canFrameCallback;
     ContinuousTaskData* currentContinuousTask;
+    TaskHandle_t continuousTaskHandle;
     bool parseTLVBlock(const uint8_t* block, size_t blockLength);
     bool handleSet(const uint8_t* data, size_t length);
     bool handleGet(const uint8_t* data, size_t length);
     bool handleGetContinuous(const uint8_t* data, size_t length);
     void stopContinuousTask();
+    void ble2CanConversion(uint8_t set_can_cmd, uint8_t* bleData, uint8_t* canData, uint8_t dataLength);
     int32_t parseInt32(const std::vector<uint8_t> &data);
+    void flushCanSetting(uint8_t can_id);
 };
 
 #endif

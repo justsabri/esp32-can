@@ -7,6 +7,8 @@ CANModule::CANModule() {
 
 bool CANModule::init(gpio_num_t txPin, gpio_num_t rxPin, twai_timing_config_t timingConfig) {
     twai_general_config_t g_config = TWAI_GENERAL_CONFIG_DEFAULT(txPin, rxPin, TWAI_MODE_NORMAL);
+    g_config.rx_queue_len = 20;
+    g_config.tx_queue_len = 20;
     twai_filter_config_t f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
 
     esp_err_t result = twai_driver_install(&g_config, &timingConfig, &f_config);

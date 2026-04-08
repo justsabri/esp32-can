@@ -20,14 +20,23 @@ void onBLEDataReceived(uint8_t* data, size_t length) {
 }
 
 void onParsedCANFrame(uint32_t canId, uint8_t* data, size_t length) {
-    Serial.printf("Protocol parsed: sending CAN frame - ID: 0x%lX\n", canId);
+    Serial.printf("Protocol parsed: sending CAN frame - ID: 0x%lX len %d\n", canId, length);
     canModule.sendMessage(canId, data, length);
 }
 
 void onCANDataReceived(uint32_t id, uint8_t* data, size_t length) {
     uint8_t bleBuffer[13];
-    size_t bleLength;
+    size_t bleLength = 0;
     protocolParser.transferCan2Ble(id, data, length, bleBuffer, &bleLength);
+    Serial.printf("send ble data: %d ", bleLength);
+    for (int i = 0; i < bleLength; i++) {
+        Serial.printf("%02X ", bleBuffer[i]);
+    }
+    Serial.println();
+    if (bleLength == 0) {
+        Serial.print("ble transfer error");
+        return;
+    }
     bleModule.sendData(bleBuffer, bleLength);
 }
 
