@@ -24,11 +24,11 @@ void CharacteristicCallbacks::onWrite(BLECharacteristic* pCharacteristic) {
     std::string value = pCharacteristic->getValue();
     if (value.length() > 0) {
         if (bleModule->dataCallback) {
-            Serial.printf("ble chara\n");
-            for (int i = 0; i < value.length(); i++) {
-                Serial.printf("0x%x ", value.data()[i]);
-            }
-            Serial.println();
+            // Serial.printf("ble chara\n");
+            // for (int i = 0; i < value.length(); i++) {
+            //     Serial.printf("0x%x ", value.data()[i]);
+            // }
+            // Serial.println();
             bleModule->dataCallback((uint8_t*)value.data(), value.length());
         }
     }
@@ -94,7 +94,7 @@ void BLEModule::sendData(const uint8_t* data, size_t length) {
     if (connected && pTxCharacteristic) {
         pTxCharacteristic->setValue(const_cast<uint8_t*>(data), length);
         pTxCharacteristic->notify();
-        Serial.printf("ble send %d\n", length);
+        // Serial.printf("ble send %d\n", length);
     }
 }
 

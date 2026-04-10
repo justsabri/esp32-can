@@ -35,11 +35,11 @@ void CANModule::loop() {
     twai_message_t message;
     esp_err_t result = twai_receive(&message, pdMS_TO_TICKS(10));
     if (result == ESP_OK) {
-        Serial.printf("Received CAN message - ID: 0x%lX, Data: ", message.identifier);
-        for (int i = 0; i < message.data_length_code; i++) {
-            Serial.printf("%02X ", message.data[i]);
-        }
-        Serial.println();
+        // Serial.printf("Received CAN message - ID: 0x%lX, Data: ", message.identifier);
+        // for (int i = 0; i < message.data_length_code; i++) {
+        //     Serial.printf("%02X ", message.data[i]);
+        // }
+        // Serial.println();
 
         if (dataCallback) {
             dataCallback(message.identifier, message.data, message.data_length_code);
@@ -63,11 +63,11 @@ bool CANModule::sendMessage(uint32_t id, const uint8_t* data, size_t length) {
 
     esp_err_t result = twai_transmit(&message, pdMS_TO_TICKS(100));
     if (result == ESP_OK) {
-        Serial.printf("Sent CAN message - ID: 0x%lX, Data: ", id);
-        for (size_t i = 0; i < length; i++) {
-            Serial.printf("%02X ", data[i]);
-        }
-        Serial.println();
+        // Serial.printf("Sent CAN message - ID: 0x%lX, Data: ", id);
+        // for (size_t i = 0; i < length; i++) {
+        //     Serial.printf("%02X ", data[i]);
+        // }
+        // Serial.println();
         return true;
     } else {
         Serial.printf("Failed to send CAN message: %d\n", result);
