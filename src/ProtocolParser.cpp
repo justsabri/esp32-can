@@ -346,6 +346,10 @@ bool ProtocolParser::handleSet(const uint8_t* data, size_t length) {
                 if (canFrameCallback) {
                     canFrameCallback(can_id, can_data, tlvLength+1);
                     if (is_need_flush) {
+                        if (paramId == 0x01) {
+                            can_id = data[1];
+                            stopContinuousTask();
+                        }
                         flushCanSetting(can_id);
                     }
                 }
